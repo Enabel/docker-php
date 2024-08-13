@@ -28,10 +28,6 @@ ENV PATH="./vendor/bin:/composer/vendor/bin:$PATH"
 ENV COMPOSER_ALLOW_SUPERUSER="1"
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
-# Install symfony-cli
-RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
-    && apk add symfony-cli
-
 WORKDIR /usr/share/nginx/html
 
 FROM no-debug AS xdebug
@@ -40,6 +36,11 @@ RUN apk add --no-cache linux-headers \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && rm -rf /tmp/*
+
+FROM xdebug AS symfony-cli
+# Install symfony-cli
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
+    && apk add symfony-cli
 
 FROM no-debug AS pcov
 # Install PCOV
