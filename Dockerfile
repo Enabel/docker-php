@@ -30,21 +30,25 @@ RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/
 
 WORKDIR /usr/share/nginx/html
 
-FROM no-debug AS xdebug
+FROM no-debug AS debug
 # Add Xdebug
 RUN apk add --no-cache linux-headers \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && rm -rf /tmp/*
 
-FROM xdebug AS symfony-cli
-# Install symfony-cli
-RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
-    && apk add symfony-cli
-
-FROM no-debug AS pcov
 # Install PCOV
 RUN pecl install pcov \
     && docker-php-ext-enable pcov \
     && rm -rf /tmp/*
 
+FROM debug AS cli
+# Set working directory
+WORKDIR /app
+
+# Install symfony-cli
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
+    && apk add symfony-cli
+
+# Default command
+CMD ["php", "-a"]

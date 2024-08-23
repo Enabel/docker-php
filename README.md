@@ -3,9 +3,14 @@
 [![Docker Images build](https://github.com/Enabel/docker-php/actions/workflows/publish.yml/badge.svg)](https://github.com/Enabel/docker-php/actions/workflows/publish.yml)
 
 Docker image based on the official php image (fpm-alpine) embedding some useful extensions (intl, mbstring, pdo, gd, ...) for Symfony projects.
-Default image don't have any debug tools, but you can use the `xdebug` image to have xdebug or the `pcov` image to have pcov.
+Default image don't have any debug tools, but you can use the `debug` image to have xdebug and pcov.
+The 'cli' image is also available for running php scripts.
 
 ## Usage
+
+### Working directory
+
+The working directory is `/usr/share/nginx/html` for the `default` and `debug` images, and `/app` for the `cli` image.
 
 ### Docker compose
 
@@ -20,10 +25,16 @@ Exemple of a `docker-compose.yml` file using the `enabel/php:8.2` image:
 Example of a `docker-compose.yml` file using with pcov and php.ini customization:
 ```yaml
     php:
-        image: enabel/php:8.2-pcov
+        image: enabel/php:8.2-debug
         volumes:
           - ./:/usr/share/nginx/html
           - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
+```
+
+### Docker run
+
+```bash
+docker run --rm -v $(pwd):/app/ enabel/php:8.3-cli php /app/script.php
 ```
 
 ## Contributing

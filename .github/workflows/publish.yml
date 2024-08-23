@@ -16,20 +16,17 @@ jobs:
     strategy:
       matrix:
         version: [ 8.2, 8.3 ]
-        target: [ no-debug, xdebug, pcov, symfony-cli ]
+        target: [ no-debug, debug, cli ]
         include:
           - version: 8.3
             target: no-debug
             tags: latest
           - version: 8.3
-            target: xdebug
-            tags: latest-xdebug
+            target: debug
+            tags: latest-debug
           - version: 8.3
-            target: pcov
-            tags: latest-pcov
-          - version: 8.3
-            target: symfony-cli
-            tags: latest-symfony-cli
+            target: cli
+            tags: latest-cli
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
