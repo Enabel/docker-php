@@ -14,10 +14,10 @@ The working directory is `/usr/share/nginx/html` for the `default` and `debug` i
 
 ### Docker compose
 
-Exemple of a `docker-compose.yml` file using the `enabel/php:8.2` image:
+Exemple of a `docker-compose.yml` file using the `enabel/php:8.3` image:
 ```yaml
     php:
-        image: enabel/php:8.2
+        image: enabel/php:8.3
         volumes:
           - ./:/usr/share/nginx/html
 ```
@@ -25,7 +25,7 @@ Exemple of a `docker-compose.yml` file using the `enabel/php:8.2` image:
 Example of a `docker-compose.yml` file using with pcov and php.ini customization:
 ```yaml
     php:
-        image: enabel/php:8.2-debug
+        image: enabel/php:8.3-debug
         volumes:
           - ./:/usr/share/nginx/html
           - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
